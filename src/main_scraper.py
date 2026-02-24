@@ -12,33 +12,30 @@ def scraper_dataset(name, url):
 
     while True:
         params = {
-            "creation_time_end" : END_DATE,
-            "limit" : LIMIT,
-            "offset" : offset,
-            "include_fields" : FIELDS
+            "chfield": "[Bug creation]",
+            "chfieldfrom": "1998-01-01",
+            "chfieldto": "2011-12-31",
+            "limit": LIMIT,
+            "offset": offset,
+            "include_fields": ",".join(FIELDS)
         }
 
         response = requests.get(url, params=params)
+        print(response)
         data = response.json()
-
+        print(data)
         bugs = data.get("bugs",[])
-
-        print(f"Downloaded {len(bugs)} bugs this page")
 
         if not bugs:
             break
 
         all_bugs.extend(bugs)
 
-        if len(all_bugs) >= 10:
-            all_bugs = all_bugs[:10]
+        if len(all_bugs) >= 1000:
             break
 
-        offset = LIMIT + offset
+        offset +=LIMIT
         time.sleep(WAIT_TIME)
 
     df = pd.DataFrame(all_bugs)
-    # df.to_csv(f"data/{name}_bugs_before_2012.csv", index=False)
-    df.to_csv(f"data/{name}_10_bugs.csv", index=False)
-
-    print(f"{name} finished. Saved {len(df)} bugs.")
+    df.to_csv(f"data/{name}_bugs_before_2012.csv", index=False)

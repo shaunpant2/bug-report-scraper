@@ -1,5 +1,5 @@
 from config import URLS
-from scraper import scraper_dataset
+from main_scraper import scraper_dataset
 
 def main():
     for name, url in URLS.items():
