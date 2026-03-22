@@ -4,8 +4,7 @@ URLS = {
     "suse": "https://bugzilla.suse.com/rest/bug"
 }
 
-LIMIT = 10
-WAIT_TIME = 2
+LIMIT = 200
 
 FIELDS = [
     "id",
